@@ -16,7 +16,7 @@
                             } while ($producto->subcategory->category->name != $category->name);
                             @endphp
                             <li>
-                                <a href="{{route('categories.show', $category)}}">
+                                <a href="{{route('categories.showUser', $category)}}">
                                     <figure class="w-full relative">
                                         <img src="{{Storage::url($producto->images->random()->url)}}">
                                         <div class="absolute inset-0 bg-gray-700 opacity-75 hover:opacity-5 text-white font-extrabold text-4xl sm:text-5xl lg:text-6xl flex items-center justify-center">

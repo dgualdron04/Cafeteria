@@ -10,7 +10,7 @@
         @foreach ($products as $product)
             <li class="bg-white rounded-lg shadow-2xl">
                 <article>
-                    <a class="hover:bg-black" href="{{-- {{ route('products.show', $product) }} --}}">
+                    <a class="hover:bg-black" href="{{ route('products.showUser', $product) }}">
                         <figure>
                             <img class="h-48 w-full object-cover object-center" src="{{ Storage::url($product->images->first()->url) }}" alt="">
                         </figure>

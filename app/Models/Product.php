@@ -50,4 +50,10 @@ class Product extends Model
         return $this->belongsToMany(Ingredient::class);
     }
 
+    //URL AMIGABLES
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
 }

@@ -15,10 +15,23 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
+        <!-- FlexSlider -->
+        <link rel="stylesheet" href="{{ asset('vendor/flexslider/flexslider.css') }}">
+
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="{{ asset('vendor/fontawesome-free/css/all.min.css')}}">
+
         @livewireStyles
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <!-- FlexSlider -->
+        <script src="{{ asset('vendor/flexslider/jquery.flexslider-min.js') }}"></script>
+
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -58,6 +71,7 @@
             }
         </script>
 
+        @stack('script')
 
     </body>
 </html>
