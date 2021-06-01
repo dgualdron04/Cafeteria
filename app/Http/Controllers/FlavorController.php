@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Flavor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class FlavorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->paginate(10);
+        $flavors = Flavor::orderBy('id', 'desc')->paginate(10);
 
-        return view('categories.index', compact('categories'))->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('flavors.index', compact('flavors'))->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -27,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        return view('flavors/create');
     }
 
     /**
@@ -40,21 +39,14 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'icon' => 'required',
-            'imagen' => 'required|image|max:2048'
         ]);
 
-        $image = $request->imagen->store('categories');
-
-        Category::create([
+        Flavor::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'icon' => $request->icon,
-            'image' => $image
         ]);
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Categoria creada exitosamente.');
+        return redirect()->route('flavors.index')
+            ->with('success', 'Flavor create successful.');
     }
 
     /**
@@ -66,11 +58,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
-    }
-
-    public function showUser(Category $category){
-        
-        return view('categories.showUser', compact('category'));
     }
 
     /**

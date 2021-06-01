@@ -3,7 +3,7 @@
         <x-navigation />
 
         <div class="w-full h-full flex flex-wrap justify-center">
-            <div class="container pt-24 pb-12">
+            <div class="container pt-24 pb-10">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div>
                         <div class="flexslider">
@@ -57,13 +57,12 @@
                             </p>
 
                             <div class="flex-1">
-                                <x-button href="https://api.whatsapp.com/send?phone=573043380795&text=I%20would%20like%20to%20order%20the%20product%20{{$product->name}}%20of%20Rustik%20Coffe%20Shop" class="w-full h-12 text-lg" color="yellow" target="_blank">  
+                                <x-button href="https://api.whatsapp.com/send?phone=571234567890&text=I%20would%20like%20to%20order%20the%20product%20{{$product->name}}%20of%20Rustik%20Coffe%20Shop" class="w-full h-12 text-lg" color="yellow" target="_blank">  
                                     <i class="fab fa-whatsapp mr-4"></i> Order by WhatsApp
                                 </x-button>
                             </div>
                         </div>
-        
-        
+                        
                     </div>
                 </div>
             </div>

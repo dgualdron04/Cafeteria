@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class SubcategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +16,14 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->paginate(10);
+        $subcategories = Subcategory::orderBy('id', 'desc');
 
-        return view('categories.index', compact('categories'))->with('i', (request()->input('page', 1) - 1) * 10);
+        $subcategoriesTotal = $subcategories->count();
+
+        $subcategories = $subcategories->paginate(10);
+
+
+        return view('subcategories.index', compact('subcategories'))->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -27,7 +33,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        $categories = Category::all();
+
+        return view('subcategories.create', compact('categories'));
     }
 
     /**
@@ -40,21 +48,21 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'icon' => 'required',
+            'categories' => 'required',
             'imagen' => 'required|image|max:2048'
         ]);
 
-        $image = $request->imagen->store('categories');
+        $image = $request->imagen->store('subcategories');
 
-        Category::create([
+        Subcategory::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
-            'icon' => $request->icon,
-            'image' => $image
+            'image' => $image,
+            'category_id' => $request->categories,
         ]);
-
-        return redirect()->route('categories.index')
-            ->with('success', 'Categoria creada exitosamente.');
+        
+        return redirect()->route('subcategories.index')
+            ->with('success', 'Se creo la subcategoria con exito');
     }
 
     /**
@@ -66,11 +74,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
-    }
-
-    public function showUser(Category $category){
-        
-        return view('categories.showUser', compact('category'));
     }
 
     /**

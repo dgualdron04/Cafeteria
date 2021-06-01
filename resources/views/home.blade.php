@@ -20,7 +20,7 @@
                     <div class="rounded-md shadow">
                       <a href="{{route('dashboard')}}" class="button-principal">
                         Show Products
-                      </a>
+                      </a>        
                     </div>
                   </div>
                 </div>

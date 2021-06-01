@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::orderBy('id', 'desc')->paginate(10);
+        $brands = Brand::orderBy('id', 'desc')->paginate(10);
 
-        return view('categories.index', compact('categories'))->with('i', (request()->input('page', 1) - 1) * 10);
+        return view('brands.index', compact('brands'))->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -27,7 +27,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        $categories = Category::all();
+
+        return view('brands/create', compact('categories'));
     }
 
     /**
@@ -40,21 +42,17 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'icon' => 'required',
-            'imagen' => 'required|image|max:2048'
+            'categories' => 'required'
         ]);
 
-        $image = $request->imagen->store('categories');
-
-        Category::create([
+        $brand = Brand::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
-            'icon' => $request->icon,
-            'image' => $image
         ]);
 
-        return redirect()->route('categories.index')
-            ->with('success', 'Categoria creada exitosamente.');
+        $brand->categories()->attach($request->categories);
+
+        return redirect()->route('brands.index')
+            ->with('success', 'Brand create successful.');
     }
 
     /**
@@ -66,11 +64,6 @@ class CategoryController extends Controller
     public function show($id)
     {
         //
-    }
-
-    public function showUser(Category $category){
-        
-        return view('categories.showUser', compact('category'));
     }
 
     /**

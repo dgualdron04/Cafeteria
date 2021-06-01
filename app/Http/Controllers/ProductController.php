@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Flavor;
+use App\Models\Image;
+use App\Models\Ingredient;
 use App\Models\Product;
+use App\Models\Subcategory;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -14,7 +22,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::orderBy('id', 'desc')->paginate(10);
+
+        return view('products.index', compact('products'))->with('i', (request()->input('page', 1) - 1)* 10);
     }
 
     /**
@@ -24,7 +34,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $subcategories = Subcategory::all();
+
+        $other = [Brand::all(), Flavor::all(), Ingredient::all()];
+
+        return view('products.create', compact('subcategories'), compact('other'));
     }
 
     /**
@@ -35,7 +49,45 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'description' => 'required',
+            'subcategories' => 'required',
+            'brands' => 'required',
+            'flavors' => 'required',
+            'status' => 'required',
+            'imagen' => 'required|image|max:2048'
+        ]);
+
+        $userId = Auth::id();
+
+        $image = $request->imagen->store('products');
+
+        $product = Product::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+            'description' => $request->description,
+            'price' => $request->price,
+            'status' => $request->status,
+            'user_id' => $userId,
+            'subcategory_id' => $request->subcategories,
+            'brand_id' => $request->brands,
+            'flavor_id' => $request->flavors,
+            'quantity' => $request->quantity
+        ]);
+
+        Image::create([
+            'url' => $image,
+            'imageable_id' => $product->id,
+            'imageable_type' => Product::class,
+        ]);
+
+        $product->ingredients()->attach($request->ingredient);
+
+        return redirect()->route('products.index')
+            ->with('success', 'Categoria creada exitosamente.');
     }
 
     /**

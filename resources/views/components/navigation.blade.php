@@ -44,6 +44,11 @@
         <a href="#" class="font-medium text-gray-500 hover:text-gray-900">About us</a>
         
         @auth
+
+            <a href="{{ route('gestion') }}" class="font-bold text-yellow-600 hover:text-yellow-500">
+              Gestión
+            </a>
+
             <a href="{{ route('profile.show') }}" class="font-bold text-yellow-600 hover:text-yellow-500">
                 @php
                     $user = explode(' ', Auth::user()->name);
@@ -106,13 +111,18 @@
           <a href="#" class="button-navigation">
             About us
           </a>
+          
         </div>
         
         @auth
         
-          <a href="{{ route('profile.show') }}" class="button-plus-navigation">
-            {{Auth::user()->name}}
-          </a>
+        <a href="{{ route('profile.show') }}" class="button-plus-navigation">
+          Gestión
+        </a>
+
+        <a href="{{ route('profile.show') }}" class="button-plus-navigation">
+          {{Auth::user()->name}}
+        </a>
 
         <a  onclick="event.preventDefault();
             document.getElementById('logout-form').submit()"

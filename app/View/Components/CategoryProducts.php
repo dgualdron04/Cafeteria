@@ -32,7 +32,7 @@ class CategoryProducts extends Component
     public function render()
     {
         
-        $products = $this->category->products()->where('status', 2)->paginate(20);
+        $products = $this->category->products()->where('status', 2)->paginate(12);
         
         return view('components.category-products', compact('products'));
     }
