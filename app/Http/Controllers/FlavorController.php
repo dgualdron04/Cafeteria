@@ -66,9 +66,9 @@ class FlavorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Flavor $flavor)
     {
-        //
+        return view('flavors.edit', compact('flavor'));
     }
 
     /**
@@ -78,9 +78,18 @@ class FlavorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Flavor $flavor)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $flavor->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('flavors.index')
+            ->with('success', 'Flavor edit.');
     }
 
     /**
@@ -89,8 +98,11 @@ class FlavorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Flavor $flavor)
     {
-        //
+        $flavor->delete();
+
+        return redirect()->route('flavors.index')
+            ->with('success', 'Flavor eliminada exitosamente.');
     }
 }

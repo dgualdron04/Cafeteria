@@ -78,7 +78,7 @@
   </div>
 
   <nav>
-    <div x-on:click.away="show()"  class="modal-nav-form-navigation hidden md:hidden" id="navigation-menu" :class="{'block': open, 'hidden': !open}" x-show="open">
+    <div x-on:click.away="show()"  class="modal-nav-form-navigation hidden md:hidden z-10" id="navigation-menu" :class="{'block': open, 'hidden': !open}" x-show="open">
       <div class="modal-form-navigation">
         <div class="px-5 pt-4 flex items-center justify-between">
           <a href="{{route('home')}}">

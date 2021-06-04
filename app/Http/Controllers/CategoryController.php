@@ -63,9 +63,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return view('categories.show', compact('category'));
     }
 
     public function showUser(Category $category){
@@ -79,9 +79,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        return view('categories.edit', compact('category'));
     }
 
     /**
@@ -91,9 +91,32 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'icon' => 'required'
+        ]);
+
+        if ($request->imagen != NULL) {
+            $image = $request->imagen->store('categories');
+            $category->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'icon' => $request->icon,
+                'image' => $image
+            ]);
+        } else {
+            $category->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'icon' => $request->icon,
+            ]);
+        }
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Category edit.');
+        
     }
 
     /**
@@ -102,8 +125,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Categoria creada exitosamente.');
     }
 }

@@ -1,4 +1,7 @@
 <x-app-layout>
+    @if ($message = Session::get('success'))
+        <x-alert color="green" />
+    @endif
     <div class="w-full h-screen bg-gradient-to-br from-gray-200 via-yellow-50 to-gray-50 flex flex-no-wrap overflow-auto">
         <x-sidebar />
         <div class=" ml-16 sm:ml-80 pr-16 pt-14 pb-12 w-full h-full flex flex-wrap items-center justify-center">
@@ -39,11 +42,18 @@
                                 <td class="px-6 py-4">
                                     <div class="text-sm text-gray-900">{{$brand->name}}</div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium w-6">
-                                    <p>Edit</p>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900">{{$brand->name}}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium w-6">
-                                    <p>Delete</p>
+                                    <a href="{{route('brands.edit', $brand)}}" class="text-yellow-600 hover:text-yellow-800">Edit</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium w-6">
+                                    <form action="{{route('brands.destroy', $brand)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-yellow-600 hover:text-yellow-800">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
     

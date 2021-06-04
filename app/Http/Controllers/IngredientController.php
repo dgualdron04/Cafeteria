@@ -66,9 +66,9 @@ class IngredientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Ingredient $ingredient)
     {
-        //
+        return view('ingredients.edit', compact('ingredient'));
     }
 
     /**
@@ -78,9 +78,18 @@ class IngredientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Ingredient $ingredient)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+
+        $ingredient->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('ingredients.index')
+            ->with('success', 'Flavor edit.');
     }
 
     /**
@@ -89,8 +98,11 @@ class IngredientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Ingredient $ingredient)
     {
-        //
+        $ingredient->delete();
+
+        return redirect()->route('ingredients.index')
+            ->with('success', 'Ingredient eliminada exitosamente.');
     }
 }

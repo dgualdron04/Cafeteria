@@ -32,7 +32,7 @@
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Icon
                                 </th>
-                                <th scope="col" colspan="2" class="relative px-6 py-3 w-6">
+                                <th scope="col" colspan="3" class="relative px-6 py-3 w-6">
                                     Actions
                                 </th>
                             </tr>
@@ -52,10 +52,17 @@
                                     <div class="text-sm text-gray-900">{!!$category->icon!!}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium w-6">
-                                    <p>Edit</p>
+                                    <a href="{{route('categories.show', $category)}}" class="text-yellow-600 hover:text-yellow-800">Show</a>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium w-6">
-                                    <p>Delete</p>
+                                    <a href="{{route('categories.edit', $category)}}" class="text-yellow-600 hover:text-yellow-800">Edit</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium w-6">
+                                    <form action="{{route('categories.destroy', $category)}}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-yellow-600 hover:text-yellow-800">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
     

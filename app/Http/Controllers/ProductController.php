@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Flavor;
 use App\Models\Image;
 use App\Models\Ingredient;
@@ -96,14 +97,19 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Product $product)
     {
-        //
+        return view('products.show', compact('product'));
     }
 
     public function showUser(Product $product){
-        
-        return view('products.showUser', compact('product'));
+        if ($product->status == Product::PUBLICADO) {
+            return view('products.showUser', compact('product'));
+        } else {
+            $category = Category::find($product->subcategory->category->id);
+            return view('categories.showUser', compact('category'));
+        }
+       /*  return view('products.showUser', compact('product')); */
     }
 
     /**
@@ -112,9 +118,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        $other = [Subcategory::all(), Brand::all(), Flavor::all(), Ingredient::all()];
+
+        return view('products.edit', compact('product'), compact('other'));
     }
 
     /**
@@ -124,9 +132,65 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'description' => 'required',
+            'subcategories' => 'required',
+            'brands' => 'required',
+            'flavors' => 'required',
+            'status' => 'required',
+            'ingredient' => 'required'
+        ]);
+
+        $userId = Auth::id();
+
+        if ($request->imagen != NULL) {
+            $image = $request->imagen->store('products');
+            $product->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'description' => $request->description,
+                'price' => $request->price,
+                'status' => $request->status,
+                'user_id' => $userId,
+                'subcategory_id' => $request->subcategories,
+                'brand_id' => $request->brands,
+                'flavor_id' => $request->flavors,
+                'quantity' => $request->quantity
+            ]);
+            
+            $product->images()->update([
+                'url' => $image,
+            ]);
+
+            $product->ingredients()->update([
+                'ingredient_id' => $request->ingredient,
+            ]);
+        } else {
+            $product->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'description' => $request->description,
+                'price' => $request->price,
+                'status' => $request->status,
+                'user_id' => $userId,
+                'subcategory_id' => $request->subcategories,
+                'brand_id' => $request->brands,
+                'flavor_id' => $request->flavors,
+                'quantity' => $request->quantity
+            ]);
+
+            $product->ingredients()->update([
+                'ingredient_id' => $request->ingredient,
+            ]);
+        }
+
+        return redirect()->route('products.index')
+            ->with('success', 'Product edit.');
     }
 
     /**
@@ -135,8 +199,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Categoria creada exitosamente.');
     }
 }

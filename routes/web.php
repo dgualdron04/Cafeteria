@@ -25,20 +25,24 @@ Route::get('/', HomeController::class)->name('home');
 
 Route::get('dashboard', DashboardController::class)->name('dashboard');
 
-Route::resource('categories', CategoryController::class);
+Route::resource('categories', CategoryController::class)->middleware(['auth:sanctum', 'verified']);
+
+Route::get('categories/show/{category}', [CategoryController::class, 'show'])->middleware(['auth:sanctum', 'verified'])->name('categories.show');
 
 Route::get('categories/{category}', [CategoryController::class, 'showUser'])->name('categories.showUser');
 
-Route::resource('subcategories', SubcategoryController::class);
+Route::resource('subcategories', SubcategoryController::class)->middleware(['auth:sanctum', 'verified']);
 
-Route::resource('products', ProductController::class);
+Route::resource('products', ProductController::class)->middleware(['auth:sanctum', 'verified']);
+
+Route::get('products/show/{product}', [ProductController::class, 'show'])->middleware(['auth:sanctum', 'verified'])->name('products.show');
 
 Route::get('products/{product}', [ProductController::class, 'showUser'])->name('products.showUser');
 
-Route::resource('ingredients', IngredientController::class);
+Route::resource('ingredients', IngredientController::class)->middleware(['auth:sanctum', 'verified']);
 
-Route::resource('flavors', FlavorController::class);
+Route::resource('flavors', FlavorController::class)->middleware(['auth:sanctum', 'verified']);
 
-Route::resource('brands', BrandController::class);
+Route::resource('brands', BrandController::class)->middleware(['auth:sanctum', 'verified']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/gestion', [HomeController::class, 'showGestion'])->name('gestion');

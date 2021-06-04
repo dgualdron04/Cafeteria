@@ -72,9 +72,11 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Brand $brand)
     {
-        //
+        $categories = Category::all();
+        
+        return view('brands.edit', compact('brand'), compact('categories'));
     }
 
     /**
@@ -84,9 +86,23 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Brand $brand)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'categories' => 'required'
+        ]);
+
+        $brand->update([
+            'name' => $request->name,
+        ]);
+
+        $brand->categories()->update([
+            'category_id' => $request->categories
+        ]);
+
+        return redirect()->route('brands.index')
+            ->with('success', 'Brand edit.');
     }
 
     /**
@@ -95,8 +111,11 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Brand $brand)
     {
-        //
+        $brand->delete();
+
+        return redirect()->route('brands.index')
+            ->with('success', 'Brand eliminada exitosamente.');
     }
 }

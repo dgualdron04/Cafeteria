@@ -71,9 +71,9 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Subcategory $subcategory)
     {
-        //
+        return view('subcategories.show', compact('subcategory'));
     }
 
     /**
@@ -82,9 +82,11 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Subcategory $subcategory)
     {
-        //
+        $categories = Category::all();
+
+        return view('subcategories.edit', compact('subcategory'), compact('categories'));
     }
 
     /**
@@ -94,9 +96,34 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Subcategory $subcategory)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'categories' => 'required',
+        ]);
+        if ($request->imagen != NULL) {
+            
+            $image = $request->imagen->store('subcategories');
+            $subcategory->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'image' => $image,
+                'category_id' => $request->categories
+            ]);
+
+        } else {
+            
+            $subcategory->update([
+                'name' => $request->name,
+                'slug' => Str::slug($request->name),
+                'category_id' => $request->categories
+            ]);
+
+        }
+
+        return redirect()->route('subcategories.index')
+            ->with('success', 'Subcategory edit.');
     }
 
     /**
@@ -105,8 +132,11 @@ class SubcategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Subcategory $subcategory)
     {
-        //
+        $subcategory->delete();
+
+        return redirect()->route('subcategories.index')
+            ->with('success', 'Subcategoria eliminada exitosamente.');
     }
 }
