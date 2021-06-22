@@ -7,12 +7,32 @@
                 <span class="text-lg font-bold text-white ml-4">Rustik Coffe Shop<br></span>
             </div>
             <ul class="mt-12">
+                @php
+                    $cont = 0;
+                @endphp
+                @can('users.index')
+                    <li class="flex w-full justify-between {{ Route::currentRouteName() == 'users.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
+                        <a href="{{route('users.index')}}" class="flex items-center">
+                            <i class="fas fa-users"></i>
+                            <span class="text-sm ml-2">Users</span>
+                        </a>
+                    </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @can('categories.index')
                 <li class="flex w-full justify-between {{ Route::currentRouteName() == 'categories.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('categories.index')}}" class="flex items-center">
                         <i class="far fa-folder"></i>
                         <span class="text-sm ml-2">Category</span>
                     </a>
                 </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @can('subcategories.index')    
                 <li
                     class="flex w-full justify-between {{ Route::currentRouteName() == 'subcategories.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('subcategories.index')}}" class="flex items-center">
@@ -20,6 +40,11 @@
                         <span class="text-sm ml-2">Subcategory</span>
                     </a>
                 </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @can('products.index')
                 <li
                     class="flex w-full justify-between {{ Route::currentRouteName() == 'products.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('products.index')}}" class="flex items-center">
@@ -27,6 +52,11 @@
                         <span class="text-sm ml-2">Products</span>
                     </a>
                 </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @can('ingredients.index')    
                 <li
                     class="flex w-full justify-between {{ Route::currentRouteName() == 'ingredients.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('ingredients.index')}}" class="flex items-center">
@@ -34,6 +64,11 @@
                         <span class="text-sm ml-2">Ingredients</span>
                     </a>
                 </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @can('flavors.index')    
                 <li
                     class="flex w-full justify-between {{ Route::currentRouteName() == 'flavors.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('flavors.index')}}" class="flex items-center">
@@ -41,6 +76,11 @@
                         <span class="text-sm ml-2">Flavor</span>
                     </a>
                 </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @can('brands.index')
                 <li
                     class="flex w-full justify-between {{ Route::currentRouteName() == 'brands.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('brands.index')}}" class="flex items-center">
@@ -48,6 +88,22 @@
                         <span class="text-sm ml-2">Brand</span>
                     </a>
                 </li>
+                @php
+                    $cont++;
+                @endphp
+                @endcan
+                @if ($cont == 0)
+                    <li class="flex w-full justify-between cursor-pointer items-center mb-6 text-gray-300 hover:text-gray-500">
+                        <a class="flex items-center" href="{{route('home')}}">Parece que no tenes permisos para realizar ninguna acción, da click aquí para regresar al Inicio.</a>
+                    </li>
+                @else
+                    <li class="flex w-full justify-between text-gray-500 hover:text-gray-400 cursor-pointer items-center mb-6">
+                        <a href="{{route('dashboard')}}" class="flex items-center">
+                            <i class="fa fa-chevron-left"></i>
+                            <span class="text-sm ml-2">Regresar</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </div>
         <div class="px-8 border-t border-gray-700">
@@ -111,6 +167,12 @@
                 <span class="text-lg font-bold text-white ml-4">Rustik Coffe Shop<br></span>
             </div>
             <ul class="mt-12">
+                <li class="flex w-full justify-between {{ Route::currentRouteName() == 'users.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
+                    <a href="{{route('users.index')}}" class="flex items-center">
+                        <i class="far fa-folder"></i>
+                        <span class="text-sm ml-2">Users</span>
+                    </a>
+                </li>
                 <li class="flex w-full justify-between {{ Route::currentRouteName() == 'categories.index' ? 'text-gray-300 hover:text-gray-500' : 'text-gray-500 hover:text-gray-400' }} cursor-pointer items-center mb-6">
                     <a href="{{route('categories.index')}}" class="flex items-center">
                         <i class="far fa-folder"></i>

@@ -69,8 +69,7 @@
             @else
 
               <a href="{{ route('login') }}" class="font-bold text-yellow-600 hover:text-yellow-500">Log in</a>
-              <a href="{{ route('register') }}" class="font-bold text-yellow-600 hover:text-yellow-500">Sign up</a>
-
+            
         @endauth
      
       </div>
@@ -137,9 +136,6 @@
 
           <a href="{{ route('login') }}" class="button-plus-navigation">
             Log in
-          </a>
-          <a href="{{ route('register') }}" class="button-plus-navigation">
-            Sign Up
           </a>
 
         @endauth

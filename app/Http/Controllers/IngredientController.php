@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class IngredientController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:ingredients.index')->only('index');
+        $this->middleware('can:ingredients.create')->only('create');
+        $this->middleware('can:ingredients.store')->only('store');
+        $this->middleware('can:ingredients.edit')->only('edit');
+        $this->middleware('can:ingredients.update')->only('update');
+        $this->middleware('can:ingredients.destroy')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -47,17 +56,6 @@ class IngredientController extends Controller
 
         return redirect()->route('ingredients.index')
             ->with('success', 'Flavor create successful.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

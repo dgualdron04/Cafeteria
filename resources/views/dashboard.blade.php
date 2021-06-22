@@ -16,7 +16,7 @@
                                     $producto = $category->products->random();
                                     $producto = Storage::url($producto->images->random()->url);
                                 } else {
-                                    $producto = Storage::url("/categories/defecto.png");
+                                    $producto = asset('images/defecto.png');
                                 }
 
                                 if (str_word_count($category->name, 0) > 2) {

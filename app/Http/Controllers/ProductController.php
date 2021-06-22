@@ -16,6 +16,15 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:products.index')->only('index');
+        $this->middleware('can:products.create')->only('create');
+        $this->middleware('can:products.store')->only('store');
+        $this->middleware('can:products.edit')->only('edit');
+        $this->middleware('can:products.update')->only('update');
+        $this->middleware('can:products.destroy')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *

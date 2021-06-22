@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
@@ -27,7 +28,7 @@ Route::get('dashboard', DashboardController::class)->name('dashboard');
 
 Route::resource('categories', CategoryController::class)->middleware(['auth:sanctum', 'verified']);
 
-Route::get('categories/show/{category}', [CategoryController::class, 'show'])->middleware(['auth:sanctum', 'verified'])->name('categories.show');
+Route::get('categories/show/{category}', [CategoryController::class, 'show'])->middleware(['auth:sanctum', 'verified'])->middleware('can:categories.show')->name('categories.show');
 
 Route::get('categories/{category}', [CategoryController::class, 'showUser'])->name('categories.showUser');
 
@@ -35,14 +36,16 @@ Route::resource('subcategories', SubcategoryController::class)->middleware(['aut
 
 Route::resource('products', ProductController::class)->middleware(['auth:sanctum', 'verified']);
 
-Route::get('products/show/{product}', [ProductController::class, 'show'])->middleware(['auth:sanctum', 'verified'])->name('products.show');
+Route::get('products/show/{product}', [ProductController::class, 'show'])->middleware(['auth:sanctum', 'verified'])->middleware('can:products.show')->name('products.show');
 
 Route::get('products/{product}', [ProductController::class, 'showUser'])->name('products.showUser');
 
-Route::resource('ingredients', IngredientController::class)->middleware(['auth:sanctum', 'verified']);
+Route::resource('ingredients', IngredientController::class)->only(['index','edit','update','destroy', 'create', 'store'])->middleware(['auth:sanctum', 'verified']);
 
-Route::resource('flavors', FlavorController::class)->middleware(['auth:sanctum', 'verified']);
+Route::resource('flavors', FlavorController::class)->only(['index','edit','update','destroy', 'create', 'store'])->middleware(['auth:sanctum', 'verified']);
 
-Route::resource('brands', BrandController::class)->middleware(['auth:sanctum', 'verified']);
+Route::resource('brands', BrandController::class)->only(['index','edit','update','destroy', 'create', 'store'])->middleware(['auth:sanctum', 'verified']);
+
+Route::resource('users', UserController::class)->only(['index','edit','update','destroy', 'create', 'store'])->middleware(['auth:sanctum', 'verified']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/gestion', [HomeController::class, 'showGestion'])->name('gestion');

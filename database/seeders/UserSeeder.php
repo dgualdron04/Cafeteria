@@ -19,7 +19,9 @@ class UserSeeder extends Seeder
             'name' => 'Diego Andrés Gualdrón Angarita',
             'email' => 'dgualdron04@gmail.com',
             'password' => bcrypt('12345678')
-        ])->roles()->attach(3);
+        ])->assignRole('SuperAdmin');
+
+        User::factory(99)->create();
 
     }
 }

@@ -9,6 +9,15 @@ use Illuminate\Support\Str;
 
 class SubcategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:subcategories.index')->only('index');
+        $this->middleware('can:subcategories.create')->only('create');
+        $this->middleware('can:subcategories.store')->only('store');
+        $this->middleware('can:subcategories.edit')->only('edit');
+        $this->middleware('can:subcategories.update')->only('update');
+        $this->middleware('can:subcategories.destroy')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *

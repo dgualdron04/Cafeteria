@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:brands.index')->only('index');
+        $this->middleware('can:brands.create')->only('create');
+        $this->middleware('can:brands.store')->only('store');
+        $this->middleware('can:brands.edit')->only('edit');
+        $this->middleware('can:brands.update')->only('update');
+        $this->middleware('can:brands.destroy')->only('destroy');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -53,17 +62,6 @@ class BrandController extends Controller
 
         return redirect()->route('brands.index')
             ->with('success', 'Brand create successful.');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**

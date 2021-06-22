@@ -33487,7 +33487,6 @@ select {
   justify-content: space-between;
   padding: 1rem;
   position: relative;
-  width: 100vw;
 }
 
 @media (min-width: 640px) {
